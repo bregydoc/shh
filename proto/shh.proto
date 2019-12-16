@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package proto;
+
+
+service SHH {
+    rpc GeneratePublicKey(Claims) returns (PublicKey) {}
+    rpc FoldMessage(MessageToFold) returns (EncodedMessage) {}
+    rpc UnfoldMessage(MessageToUnfold) returns (Message) {}
+}
+
+message Claims {
+    string username = 1;
+    string password = 2;
+}
+
+message PublicKey {
+    string pem = 1;
+}
+
+message MessageToUnfold {
+    Claims claims = 3;
+
+    string publicKey = 1;
+    string encodedMessage = 2;
+}
+
+message MessageToFold {
+    string publicKey = 1;
+    string message = 2;
+}
+
+message Message {
+    string message = 1;
+}
+
+message EncodedMessage {
+    string encodedMessage = 1;
+}

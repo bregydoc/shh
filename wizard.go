@@ -5,11 +5,15 @@ import (
 	"crypto/rsa"
 	"crypto/x509"
 	"encoding/pem"
+	"hash"
 	"io"
 )
 
 type Wizard struct {
 	random io.Reader
+	store Store
+
+	hash hash.Hash
 }
 
 func (w *Wizard) generatePair(bits ...int) (*rsa.PrivateKey, *rsa.PublicKey, error) {
@@ -26,7 +30,6 @@ func (w *Wizard) generatePair(bits ...int) (*rsa.PrivateKey, *rsa.PublicKey, err
 	return key, &key.PublicKey, nil
 }
 
-// func (w *Wizard)
 
 func (w *Wizard) CraftNewDefaultPair() (*Pair, error) {
 	x, p, err := w.generatePair(2048)
@@ -52,6 +55,13 @@ func (w *Wizard) CraftNewDefaultPair() (*Pair, error) {
 }
 
 
-func NewWizard() *Wizard {
-	return &Wizard{random:rand.Reader}
+func NewWizard(options ...Option) (*Wizard, error) {
+	w := &Wizard{random:rand.Reader}
+	for _, opt := range options {
+		if err := opt(w); err != nil {
+			return nil, err
+		}
+	}
+
+	return w, nil
 }

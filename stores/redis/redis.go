@@ -51,7 +51,7 @@ func (s *Store) GetPair(token, publicKey string) (*shh.Pair, error) {
 	}
 
 	return &shh.Pair{
-		PrivateKeyPem: x,
+		PrivateKeyPem: string(x),
 		PublicKeyPem:  publicKey,
 	}, nil
 }
