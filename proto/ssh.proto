@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package sshproto;
+
+
+service SSH {
+    rpc GeneratePublicKey(Claims) returns (PublicKey) {}
+}
+
+message Claims {
+    string username = 1;
+    string password = 2;
+}
+
+message PublicKey {
+    string pem = 1;
+}
