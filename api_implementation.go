@@ -97,7 +97,7 @@ func (api *API) implementUnfold(path string, wizard *Wizard) {
 			})
 			return
 		}
-		
+
 		req  := new(ToUnfold)
 
 		if err := c.ShouldBindJSON(req); err != nil {

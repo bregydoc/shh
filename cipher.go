@@ -5,7 +5,6 @@ import (
 	"crypto/x509"
 	"encoding/base64"
 	"encoding/pem"
-	"log"
 )
 
 func (w *Wizard) encrypt(publicKey string, message string) ([]byte, error) {
@@ -14,8 +13,6 @@ func (w *Wizard) encrypt(publicKey string, message string) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	log.Println("pub: ", pub)
 
 	encryptedMessage, err := rsa.EncryptOAEP(
 		w.hash,
@@ -39,14 +36,10 @@ func (w *Wizard) decryptCipher(privateKey string, cipherText string) ([]byte, er
 		return nil, err
 	}
 
-	log.Println("cipherText: ", cipherText)
-
 	data, err := base64.StdEncoding.DecodeString(cipherText)
 	if err != nil {
 		return nil, err
 	}
-
-	log.Println("data: ", data)
 
 	message, err := rsa.DecryptOAEP(
 		w.hash,

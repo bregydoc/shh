@@ -21,6 +21,7 @@ func main() {
 		shh.WithDefaultAPI(),
 		shh.WithRandomSource(rand.Reader),
 		shh.WithStore(store),
+		shh.WithFullAvailableAPI(),
 	)
 	if err != nil {
 		panic(err)

@@ -33,3 +33,10 @@ func WithDefaultAPI() Option {
 		return nil
 	}
 }
+
+func WithFullAvailableAPI() Option {
+	return func (wizard *Wizard) error {
+		wizard.fullAvailableAPI = true
+		return nil
+	}
+}
