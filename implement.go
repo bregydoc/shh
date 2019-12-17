@@ -7,12 +7,15 @@ import (
 )
 
 func (w *Wizard) GeneratePublicKey(c context.Context, req *proto.Claims) (*proto.PublicKey, error) {
-	pair, err := w.CraftNewDefaultPair()
+	pair, err := w.craftNewDefaultPair()
 	if err != nil {
 		return nil, err
 	}
 
 	token := req.Username + ":" + req.Password
+	if err = w.verifyToken(token); err != nil {
+		return nil, err
+	}
 
 	if err = w.store.RegisterNewPair(token, pair); err != nil {
 		return nil, err
@@ -25,6 +28,9 @@ func (w *Wizard) GeneratePublicKey(c context.Context, req *proto.Claims) (*proto
 
 func (w *Wizard) UnfoldMessage(c context.Context, req *proto.MessageToUnfold) (*proto.Message, error) {
 	token := req.Claims.Username + ":" + req.Claims.Password
+	if err := w.verifyToken(token); err != nil {
+		return nil, err
+	}
 
 	pair, err := w.store.GetPair(token, req.PublicKey)
 	if err != nil {

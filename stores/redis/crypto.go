@@ -4,12 +4,18 @@ import (
 	"crypto/aes"
 	"crypto/cipher"
 	"crypto/rand"
+	"crypto/sha256"
 	"errors"
 	"io"
 )
 
 func encrypt(plaintext []byte, key []byte) ([]byte, error) {
-	c, err := aes.NewCipher(key)
+	k := make([]byte, 32)
+	hsh := sha256.Sum256(key)
+
+	copy(k[:], hsh[:])
+
+	c, err := aes.NewCipher(k)
 	if err != nil {
 		return nil, err
 	}
@@ -27,8 +33,13 @@ func encrypt(plaintext []byte, key []byte) ([]byte, error) {
 	return gcm.Seal(nonce, nonce, plaintext, nil), nil
 }
 
-func decrypt(ciphertext []byte, key []byte) ([]byte, error) {
-	c, err := aes.NewCipher(key)
+func decrypt(cipherText []byte, key []byte) ([]byte, error) {
+	k := make([]byte, 32)
+	hsh := sha256.Sum256(key)
+
+	copy(k[:], hsh[:])
+
+	c, err := aes.NewCipher(k)
 	if err != nil {
 		return nil, err
 	}
@@ -39,10 +50,10 @@ func decrypt(ciphertext []byte, key []byte) ([]byte, error) {
 	}
 
 	nonceSize := gcm.NonceSize()
-	if len(ciphertext) < nonceSize {
-		return nil, errors.New("ciphertext too short")
+	if len(cipherText) < nonceSize {
+		return nil, errors.New("cipherText too short")
 	}
 
-	nonce, ciphertext := ciphertext[:nonceSize], ciphertext[nonceSize:]
-	return gcm.Open(nil, nonce, ciphertext, nil)
+	nonce, cipherText := cipherText[:nonceSize], cipherText[nonceSize:]
+	return gcm.Open(nil, nonce, cipherText, nil)
 }

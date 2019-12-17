@@ -31,9 +31,9 @@ message MessageToFold {
 }
 
 message Message {
-    string message = 1;
+    bytes message = 1;
 }
 
 message EncodedMessage {
-    string encodedMessage = 1;
+    bytes encodedMessage = 1;
 }

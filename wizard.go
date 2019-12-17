@@ -14,6 +14,9 @@ type Wizard struct {
 	store Store
 
 	hash hash.Hash
+	api *API
+
+	fullAvailableAPI bool
 }
 
 func (w *Wizard) generatePair(bits ...int) (*rsa.PrivateKey, *rsa.PublicKey, error) {
@@ -31,7 +34,7 @@ func (w *Wizard) generatePair(bits ...int) (*rsa.PrivateKey, *rsa.PublicKey, err
 }
 
 
-func (w *Wizard) CraftNewDefaultPair() (*Pair, error) {
+func (w *Wizard) craftNewDefaultPair() (*Pair, error) {
 	x, p, err := w.generatePair(2048)
 	if err != nil {
 		return nil, err

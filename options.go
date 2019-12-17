@@ -1,6 +1,10 @@
 package shh
 
-import "io"
+import (
+	"io"
+
+	"github.com/gin-gonic/gin"
+)
 
 type Option func(wizard *Wizard) error
 
@@ -15,6 +19,17 @@ func WithStore(s Store) Option {
 func WithRandomSource(reader io.Reader) Option {
 	return func (wizard *Wizard) error {
 		wizard.random = reader
+		return nil
+	}
+}
+
+func WithDefaultAPI() Option {
+	return func (wizard *Wizard) error {
+		wizard.api = &API{
+			engine:  gin.Default(),
+			baseURL: "/api",
+			port:    ":8080",
+		}
 		return nil
 	}
 }
