@@ -17,6 +17,8 @@ type Wizard struct {
 	api *API
 
 	fullAvailableAPI bool
+
+	rpcPort string
 }
 
 func (w *Wizard) generatePair(bits ...int) (*rsa.PrivateKey, *rsa.PublicKey, error) {

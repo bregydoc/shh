@@ -3,6 +3,7 @@ module github.com/bregydoc/shh
 go 1.13
 
 require (
+	github.com/caarlos0/env/v6 v6.1.0
 	github.com/davecgh/go-spew v1.1.1
 	github.com/gin-gonic/gin v1.5.0
 	github.com/go-redis/redis v6.15.6+incompatible
@@ -10,4 +11,5 @@ require (
 	github.com/onsi/ginkgo v1.10.3 // indirect
 	github.com/onsi/gomega v1.7.1 // indirect
 	google.golang.org/grpc v1.25.1
+	gopkg.in/yaml.v2 v2.2.4
 )
