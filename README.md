@@ -16,7 +16,6 @@ It's only a very simple service to generate temporal RSA Keypairs and use it for
 
 <p align="center"><img src="./shh-basic.png" alt="basic implementation" width="680"/></p>
 
-
-
-
+See sshjs here:
+[https://github.com/bregydoc/shh-js](https://github.com/bregydoc/shh-js)
 
